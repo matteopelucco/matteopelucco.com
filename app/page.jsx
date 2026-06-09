@@ -165,6 +165,9 @@ export default function Home() {
 
         <div className="p-label p-top-left">
           {CONFIG.hudTopLeft} <span className="p-dim">{CONFIG.hudVersion}</span>
+          <span className="p-dim" style={{ fontSize: "0.75em", opacity: 0.6 }}>
+            {" "}(build {process.env.BUILD_NUMBER} · {process.env.BUILD_DATE})
+          </span>
         </div>
         <div className="p-label p-top-right p-dim">{CONFIG.hudTopRight}</div>
         <div className="p-label p-bottom-left">
