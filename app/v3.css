@@ -1,0 +1,104 @@
+/* ── V3 · PARTICLE FIELD ─────────────────────────────────────────
+   Nero profondo, HUD minimale. Signature: il nome è composto da
+   migliaia di particelle ciano→violetto che si disperdono al
+   passaggio del puntatore e si ricompongono elasticamente.        */
+
+.p-stage {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, #0a0e16 0%, #050608 70%);
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.p-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+/* ── HUD ── */
+.p-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.p-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(120, 230, 255, 0.5);
+  animation: p-fade 1.2s ease both;
+}
+
+.p-tl { top: 18px; left: 18px; border-right: 0; border-bottom: 0; }
+.p-tr { top: 18px; right: 18px; border-left: 0; border-bottom: 0; }
+.p-bl { bottom: 18px; left: 18px; border-right: 0; border-top: 0; }
+.p-br { bottom: 18px; right: 18px; border-left: 0; border-top: 0; }
+
+.p-label {
+  position: absolute;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  color: #9beaff;
+  animation: p-fade 1.2s ease 0.3s both;
+}
+
+.p-top-left { top: 26px; left: 60px; }
+.p-top-right { top: 26px; right: 60px; }
+.p-bottom-left { bottom: 26px; left: 60px; }
+.p-bottom-right { bottom: 26px; right: 60px; }
+
+.p-dim { color: rgba(155, 234, 255, 0.45); }
+
+.p-cursor { color: #c9a6ff; margin-right: 0.5em; }
+
+.p-blink {
+  animation: p-blink 1s steps(2, start) infinite;
+}
+
+@keyframes p-blink {
+  to { visibility: hidden; }
+}
+
+@keyframes p-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* scanline leggerissima, dà texture senza sporcare */
+.p-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255, 255, 255, 0.012) 3px,
+    rgba(255, 255, 255, 0.012) 4px
+  );
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .p-top-left, .p-bottom-left { left: 52px; }
+  .p-top-right, .p-bottom-right { right: 52px; }
+  .p-label { font-size: 0.66rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p-blink, .p-corner, .p-label { animation: none; }
+}
