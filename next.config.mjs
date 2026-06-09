@@ -1,15 +1,13 @@
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import { execSync } from "child_process";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const build = JSON.parse(readFileSync(join(__dirname, "build.json"), "utf8"));
+const buildNumber = execSync("git rev-list --count HEAD").toString().trim();
+const buildDate = new Date().toISOString().slice(0, 10);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    BUILD_NUMBER: String(build.number),
-    BUILD_DATE: build.date,
+    BUILD_NUMBER: buildNumber,
+    BUILD_DATE: buildDate,
   },
 };
 
