@@ -1,14 +1,15 @@
 import "./globals.css";
+import CONFIG from "./config";
 
 export const metadata = {
-  title: "matteo pelucco — in costruzione",
-  description: "matteopelucco.com — sito in costruzione, coming soon.",
+  title: CONFIG.pageTitle,
+  description: CONFIG.pageDescription,
   metadataBase: new URL("https://matteopelucco.com"),
   openGraph: {
-    title: "matteo pelucco",
-    description: "Sito in costruzione — coming soon.",
+    title: CONFIG.name.toLowerCase(),
+    description: CONFIG.pageDescription,
     url: "https://matteopelucco.com",
-    siteName: "matteo pelucco",
+    siteName: CONFIG.name.toLowerCase(),
     locale: "it_IT",
     type: "website",
   },
