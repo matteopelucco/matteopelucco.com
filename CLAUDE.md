@@ -28,12 +28,8 @@ app/
   globals.css     # reset CSS minimale
   v3.css          # tutto lo stile HUD, angoli, scanline, animazioni, responsive
 
-scripts/
-  prebuild.js     # incrementa build.json (number + date) prima di ogni build
-
-build.json        # stato del build corrente { number, date } — committare dopo ogni build
-next.config.mjs   # legge build.json, espone BUILD_NUMBER e BUILD_DATE come env vars
-package.json      # versione app, script (prebuild → build)
+next.config.mjs   # calcola BUILD_NUMBER e BUILD_DATE, li espone come env vars
+package.json      # versione app, script (build)
 ```
 
 ---
@@ -42,24 +38,19 @@ package.json      # versione app, script (prebuild → build)
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000  (prebuild NON gira in dev)
-npm run build    # incrementa build.json, poi next build
+npm run dev      # http://localhost:3000
+npm run build    # next build (BUILD_NUMBER = git commit count, BUILD_DATE = oggi)
 ```
 
 ---
 
 ## Build incrementale
 
-Ogni `npm run build` esegue `scripts/prebuild.js` che:
-1. Legge `build.json`
-2. Incrementa `number` di 1
-3. Aggiorna `date` alla data odierna (`YYYY-MM-DD`)
-4. Riscrive il file
+`next.config.mjs` calcola a build time:
+- `BUILD_NUMBER` = `git rev-list --count HEAD` — intero crescente, uguale al numero di commit sul branch
+- `BUILD_DATE` = data odierna in formato `YYYY-MM-DD`
 
-`next.config.mjs` inietta `BUILD_NUMBER` e `BUILD_DATE` come variabili d'ambiente al build time.
-Il componente `page.jsx` le legge via `process.env.BUILD_NUMBER` / `process.env.BUILD_DATE`.
-
-**Dopo ogni build di produzione committare `build.json`** per mantenere la sequenza coerente.
+Funziona sia in locale che su Vercel senza scrivere nulla sul repo. Aumenta automaticamente ad ogni push/merge su `main`.
 
 ---
 
