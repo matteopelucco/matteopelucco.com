@@ -93,6 +93,10 @@
   white-space: nowrap;
 }
 
+@media (max-width: 1023px) {
+  .p-build { display: none; }
+}
+
 @media (max-width: 640px) {
   .p-top-left, .p-bottom-left { left: 52px; }
   .p-top-right, .p-bottom-right { right: 52px; }
