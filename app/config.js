@@ -24,11 +24,10 @@ const SITE_CONFIG = {
   particleSize:    1.8,    // lato del quadrato-particella in px
 
   // ── Colori ───────────────────────────────────────────────────
-  colorBaseHue:   210,    // hue di partenza in gradi (210 = blu elettrico)
-  colorCycleSpeed: 0,     // gradi/secondo — velocità rotazione hue (0 = statico)
-  colorHueSpread:  30,    // ampiezza gradiente hue da sinistra a destra (in gradi)
-  colorSaturation: 100,   // saturazione HSL in % (fluo: 90–100)
-  colorLightness:  58,    // luminosità HSL in % (fluo: 60–70)
+  colorCycleSpeed: 10,     // gradi/secondo — velocità rotazione hue (0 = statico)
+  colorHueSpread:  92,     // ampiezza gradiente hue da sinistra a destra (in gradi)
+  colorSaturation: 95,     // saturazione HSL in % (fluo: 90–100)
+  colorLightness:  65,     // luminosità HSL in % (fluo: 60–70)
 };
 
 export default SITE_CONFIG;

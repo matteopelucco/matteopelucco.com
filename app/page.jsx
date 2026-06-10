@@ -39,7 +39,7 @@ export default function Home() {
       const size = twoLines
         ? Math.min(w / 6.2, 110)
         : Math.min(w / 10.5, 150);
-      octx.font = `800 ${size}px Inter, Arial, sans-serif`;
+      octx.font = `800 ${size}px Archivo, Arial, sans-serif`;
 
       const nameParts = CONFIG.name.split(" ");
       if (twoLines && nameParts.length >= 2) {
@@ -75,7 +75,7 @@ export default function Home() {
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const baseHue = CONFIG.colorBaseHue + (Date.now() / 1000 * CONFIG.colorCycleSpeed) % 360;
+      const baseHue = (Date.now() / 1000 * CONFIG.colorCycleSpeed) % 360;
 
       for (const p of particles) {
         p.vx += (p.tx - p.x) * CONFIG.springForce;
@@ -107,7 +107,7 @@ export default function Home() {
       const w = window.innerWidth;
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
-      const baseHue = CONFIG.colorBaseHue;
+      const baseHue = 178;
       for (const p of particles) {
         ctx.fillStyle = `hsl(${baseHue + p.hueOffset} ${CONFIG.colorSaturation}% ${CONFIG.colorLightness}%)`;
         ctx.fillRect(p.tx, p.ty, CONFIG.particleSize, CONFIG.particleSize);
