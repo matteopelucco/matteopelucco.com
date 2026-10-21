@@ -30,11 +30,15 @@ const SITE_CONFIG = {
   colorLightness:  65,     // luminosità HSL in % (fluo: 60–70)
 
   // ── Forme geometriche ────────────────────────────────────────
-  shapes:          ["star"], // sequenza di forme, una per ciclo (a rotazione)
+  // sequenza di forme (chiavi di shapes.js), una per ciclo a rotazione
+  shapes: [
+    "star", "yoda", "vader", "falcon", "pikachu",
+    "joystick", "stratocaster", "lespaul", "charmander", "trebleClef",
+  ],
   shapeInterval:   30,     // secondi tra l'inizio di un'animazione e la successiva
-  shapeMorphIn:    3,      // durata morph testo → forma (s)
+  shapeMorphIn:    2,      // durata morph testo → forma (s)
   shapeHold:       5,      // permanenza della forma (s)
-  shapeMorphOut:   3,      // durata morph forma → testo (s)
+  shapeMorphOut:   2,      // durata morph forma → testo (s)
 };
 
 export default SITE_CONFIG;

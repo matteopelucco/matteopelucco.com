@@ -3,25 +3,7 @@
 import { useEffect, useRef } from "react";
 import "./v3.css";
 import CONFIG from "./config";
-
-// Ogni forma disegna una sagoma piena (bianca) sul canvas offscreen,
-// i cui pixel vengono campionati come posizioni target delle particelle.
-const SHAPES = {
-  star(octx, w, h) {
-    const cx = w / 2;
-    const cy = h / 2;
-    const outer = Math.min(w, h) * 0.36;
-    const inner = outer * 0.42;
-    octx.beginPath();
-    for (let i = 0; i < 10; i++) {
-      const r = i % 2 === 0 ? outer : inner;
-      const a = -Math.PI / 2 + (i * Math.PI) / 5;
-      octx.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
-    }
-    octx.closePath();
-    octx.fill();
-  },
-};
+import SHAPES from "./shapes";
 
 const easeInOutCubic = (t) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
