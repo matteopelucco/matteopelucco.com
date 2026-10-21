@@ -5,7 +5,7 @@
 Pagina placeholder "sito in costruzione" per matteopelucco.com.
 Il nome è composto da migliaia di particelle campionate dai pixel del testo renderizzato su canvas offscreen: si disperdono al passaggio del cursore e si ricompongono con fisica spring. Estetica HUD (heads-up display), palette ciano → violetto.
 
-**Versione corrente:** v0.9 — il numero di build è incrementale e viene aggiornato automaticamente ad ogni `npm run build`.
+**Versione corrente:** v0.10 — il numero di build è incrementale e viene aggiornato automaticamente ad ogni `npm run build`.
 
 ---
 

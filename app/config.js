@@ -11,7 +11,7 @@ const SITE_CONFIG = {
 
   // ── Etichette HUD ─────────────────────────────────────────────
   hudTopLeft:    "MP://BUILD",
-  hudVersion:    "v0.9",
+  hudVersion:    "v0.10",
   hudTopRight:   "matteopelucco.com",
   hudBottomLeft: "sito in costruzione",
   hudBottomRight: "© 2026",
