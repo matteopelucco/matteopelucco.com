@@ -28,6 +28,13 @@ const SITE_CONFIG = {
   colorHueSpread:  92,     // ampiezza gradiente hue da sinistra a destra (in gradi)
   colorSaturation: 95,     // saturazione HSL in % (fluo: 90–100)
   colorLightness:  65,     // luminosità HSL in % (fluo: 60–70)
+
+  // ── Forme geometriche ────────────────────────────────────────
+  shapes:          ["star"], // sequenza di forme, una per ciclo (a rotazione)
+  shapeInterval:   30,     // secondi tra l'inizio di un'animazione e la successiva
+  shapeMorphIn:    3,      // durata morph testo → forma (s)
+  shapeHold:       5,      // permanenza della forma (s)
+  shapeMorphOut:   3,      // durata morph forma → testo (s)
 };
 
 export default SITE_CONFIG;
