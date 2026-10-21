@@ -30,7 +30,7 @@ const SITE_CONFIG = {
   colorLightness:  65,     // luminosità HSL in % (fluo: 60–70)
 
   // ── Forme geometriche ────────────────────────────────────────
-  // sequenza di forme (chiavi di shapes.js), una per ciclo a rotazione
+  // forme disponibili (chiavi di shapes.js), scelte a caso a ogni ciclo
   shapes: [
     "star", "yoda", "vader", "falcon", "pikachu",
     "joystick", "stratocaster", "lespaul", "charmander", "trebleClef",

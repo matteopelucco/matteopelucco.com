@@ -21,7 +21,6 @@ export default function Home() {
     let raf = 0;
     const mouse = { x: -9999, y: -9999 };
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let startTime = 0;
     let shapeTargets = {};
 
     // Campiona i pixel di una forma e assegna a ogni particella un punto,
@@ -58,21 +57,36 @@ export default function Home() {
       }
     }
 
+    // Animazione in corso { shape, start } oppure null; la prossima parte
+    // a `nextAt` (ogni shapeInterval) o subito alla pressione del tasto "A".
+    let anim = null;
+    let nextAt = Infinity;
+
+    // Sceglie una forma a caso, evitando di ripetere l'ultima
+    function startAnim(now) {
+      const names = CONFIG.shapes.filter((n) => shapeTargets[n]);
+      if (!names.length) return;
+      const pool = names.length > 1 ? names.filter((n) => n !== anim?.shape) : names;
+      anim = { shape: pool[Math.floor(Math.random() * pool.length)], start: now, done: false };
+      nextAt = now + CONFIG.shapeInterval * 1000;
+    }
+
     // Restituisce { shape, mix } dove mix ∈ [0,1] è il peso della forma.
     function shapeState(now) {
-      const t = (now - startTime) / 1000;
-      const { shapeInterval, shapeMorphIn, shapeHold, shapeMorphOut, shapes } = CONFIG;
-      if (!shapes.length || t < shapeInterval) return null;
-      const cycle = Math.floor((t - shapeInterval) / shapeInterval);
-      const phase = (t - shapeInterval) % shapeInterval;
-      const shape = shapes[cycle % shapes.length];
+      if ((!anim || anim.done) && now >= nextAt) startAnim(now);
+      if (!anim || anim.done) return null;
+      const { shapeMorphIn, shapeHold, shapeMorphOut } = CONFIG;
+      const phase = (now - anim.start) / 1000;
       let mix;
       if (phase < shapeMorphIn) mix = easeInOutCubic(phase / shapeMorphIn);
       else if (phase < shapeMorphIn + shapeHold) mix = 1;
       else if (phase < shapeMorphIn + shapeHold + shapeMorphOut)
         mix = 1 - easeInOutCubic((phase - shapeMorphIn - shapeHold) / shapeMorphOut);
-      else return null;
-      return { shape, mix };
+      else {
+        anim.done = true;
+        return null;
+      }
+      return { shape: anim.shape, mix };
     }
 
     function sampleText() {
@@ -186,6 +200,12 @@ export default function Home() {
       mouse.x = -9999;
       mouse.y = -9999;
     };
+    const onKey = (e) => {
+      if (reduced || e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key.toLowerCase() !== "a") return;
+      if (anim && !anim.done) return;
+      startAnim(performance.now());
+    };
     const onResize = () => {
       sampleText();
       if (reduced) drawStatic();
@@ -196,7 +216,7 @@ export default function Home() {
       if (reduced) {
         drawStatic();
       } else {
-        startTime = performance.now();
+        nextAt = performance.now() + CONFIG.shapeInterval * 1000;
         raf = requestAnimationFrame(tick);
       }
     };
@@ -209,11 +229,13 @@ export default function Home() {
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerleave", onLeave);
     window.addEventListener("resize", onResize);
+    window.addEventListener("keydown", onKey);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerleave", onLeave);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("keydown", onKey);
     };
   }, []);
 
