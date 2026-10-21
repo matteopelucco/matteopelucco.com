@@ -34,6 +34,8 @@ const SITE_CONFIG = {
   shapes: [
     "star", "yoda", "vader", "falcon", "pikachu",
     "joystick", "stratocaster", "lespaul", "charmander", "trebleClef",
+    "mario", "bubbleDragon", "commodore64", "mauiHook", "mickey", "donald",
+    "goofy", "tinkerBell", "goonies", "backToTheFuture", "indyHat",
   ],
   shapeInterval:   30,     // secondi tra l'inizio di un'animazione e la successiva
   shapeMorphIn:    2,      // durata morph testo → forma (s)

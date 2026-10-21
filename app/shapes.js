@@ -25,6 +25,15 @@ const strokePath = (c, d, width) => {
   c.stroke(new Path2D(d));
 };
 
+// Pixel art: riempie le celle i cui caratteri sono in `on`
+const pixels = (c, rows, x0, y0, size, on) => {
+  rows.forEach((row, y) => {
+    [...row].forEach((ch, x) => {
+      if (on.includes(ch)) c.fillRect(x0 + x * size, y0 + y * size, size, size);
+    });
+  });
+};
+
 // Rimuove i pixel disegnati da fn (buchi: occhi, pulsanti, ...)
 const cut = (c, fn) => {
   c.save();
@@ -247,6 +256,187 @@ const SHAPES = {
       6
     );
     ell(c, 40, 88, 6);
+  }),
+  mario: inBox((c) => {
+    // sprite NES (R rosso, B marrone, S pelle): il marrone del viso è un buco
+    const sprite = [
+      "...RRRRR....",
+      "..RRRRRRRRR.",
+      "..BBBSSBS...",
+      ".BSBSSSBSSS.",
+      ".BSBBSSSBSSS",
+      ".BBSSSSBBBB.",
+      "...SSSSSSS..",
+      "..RRBRRR....",
+      ".RRRBRRBRRR.",
+      "RRRRBBBBRRRR",
+      "SSRBSBBSBRSS",
+      "SSSBBBBBBSSS",
+      "SSBBBBBBBBSS",
+      "..BBB..BBB..",
+      ".BBB....BBB.",
+      "BBBB....BBBB",
+    ];
+    pixels(c, sprite, 14, 4, 6, "RSB");
+    cut(c, () => pixels(c, sprite.slice(0, 6), 14, 4, 6, "B"));
+    pixels(c, sprite.slice(0, 2), 14, 4, 6, "R");
+  }),
+
+  bubbleDragon: inBox((c) => {
+    // creste sulla schiena
+    poly(c, [[26, 30], [10, 20], [20, 42]]);
+    poly(c, [[20, 44], [2, 44], [18, 58]]);
+    poly(c, [[20, 60], [4, 70], [24, 72]]);
+    ell(c, 44, 56, 27, 30);
+    ell(c, 70, 46, 17, 13);
+    // piedi e braccio
+    ell(c, 32, 88, 11, 5);
+    ell(c, 58, 88, 11, 5);
+    ell(c, 66, 66, 7, 4, -0.6);
+    // bolla
+    c.beginPath();
+    c.arc(88, 80, 10, 0, Math.PI * 2);
+    c.arc(88, 80, 7, 0, Math.PI * 2, true);
+    c.fill();
+    cut(c, () => {
+      ell(c, 58, 34, 8, 10);
+      fillPath(c, "M70,54 Q78,58 86,54 L86,57 Q78,62 70,57 Z");
+    });
+    ell(c, 61, 36, 4, 5);
+  }),
+
+  commodore64: inBox((c) => {
+    // logo C= : anello aperto a destra + due bandierine
+    c.beginPath();
+    c.arc(42, 50, 36, 0, Math.PI * 2);
+    c.arc(42, 50, 21, 0, Math.PI * 2, true);
+    c.fill("evenodd");
+    cut(c, () => c.fillRect(56, 34, 50, 32));
+    poly(c, [[60, 35], [94, 35], [82, 48], [60, 48]]);
+    poly(c, [[60, 52], [82, 52], [94, 65], [60, 65]]);
+  }),
+
+  mauiHook: inBox((c) => {
+    strokePath(c, "M62,10 L62,60 C62,94 22,96 20,66 L20,44", 11);
+    // punta e pomello
+    poly(c, [[20, 26], [10, 48], [30, 48]]);
+    ell(c, 62, 8, 9, 7);
+    cut(c, () => {
+      // incisioni
+      for (let y = 22; y <= 54; y += 8) c.fillRect(57, y, 10, 2.2);
+      ell(c, 62, 8, 3.5, 2.5);
+    });
+  }),
+
+  mickey: inBox((c) => {
+    ell(c, 50, 60, 27);
+    ell(c, 22, 26, 17);
+    ell(c, 78, 26, 17);
+  }),
+
+  donald: inBox((c) => {
+    // cappello da marinaio con nastro
+    fillPath(c, "M26,34 Q28,10 52,8 Q68,8 70,26 Z");
+    fillPath(c, "M22,36 Q46,24 74,28 L74,32 Q46,30 22,40 Z");
+    poly(c, [[28, 32], [8, 38], [14, 46], [30, 38]]);
+    ell(c, 46, 52, 22, 21);
+    // becco
+    fillPath(c, "M58,52 Q84,44 98,54 Q88,68 60,68 Z");
+    // ciuffo
+    poly(c, [[26, 60], [16, 70], [30, 68]]);
+    cut(c, () => {
+      ell(c, 56, 44, 3, 5);
+      fillPath(c, "M62,60 Q80,58 94,56 L94,58 Q80,62 62,63 Z");
+      c.fillRect(24, 34, 48, 2.2);
+    });
+  }),
+
+  goofy: inBox((c) => {
+    // cappello alto
+    poly(c, [[34, 4], [58, 2], [64, 28], [28, 28]]);
+    ell(c, 46, 28, 24, 4);
+    ell(c, 44, 46, 18, 17);
+    // muso e naso
+    fillPath(c, "M54,38 Q84,34 90,44 Q92,58 76,60 L56,60 Z");
+    ell(c, 90, 42, 7, 6);
+    // orecchio cadente
+    fillPath(c, "M30,40 Q14,52 16,80 Q22,86 28,78 Q30,58 38,48 Z");
+    // dentoni
+    c.fillRect(64, 60, 5, 7);
+    c.fillRect(70, 60, 5, 7);
+    cut(c, () => {
+      ell(c, 52, 40, 3, 5);
+      c.fillRect(30, 26, 32, 2);
+      c.fillRect(56, 57, 26, 2);
+    });
+  }),
+
+  tinkerBell: inBox((c) => {
+    // ali
+    ell(c, 30, 30, 18, 8, -0.5);
+    ell(c, 70, 30, 18, 8, 0.5);
+    ell(c, 34, 46, 12, 5, 0.4);
+    ell(c, 66, 46, 12, 5, -0.4);
+    // testa con chignon
+    ell(c, 50, 20, 7);
+    ell(c, 55, 11, 4);
+    // corpo e gonna a punte
+    poly(c, [[46, 27], [54, 27], [56, 44], [44, 44]]);
+    poly(c, [[43, 42], [57, 42], [68, 58], [60, 55], [56, 61], [50, 56], [44, 61], [40, 55], [32, 58]]);
+    // braccia e gambe
+    strokePath(c, "M46,32 L36,40 M54,32 L64,22", 4);
+    strokePath(c, "M47,58 L42,86 L38,90 M53,58 L58,84 L62,88", 5);
+    // scia di polvere magica
+    [[72, 70, 3], [80, 78, 2.6], [86, 88, 2.2], [76, 88, 2], [92, 76, 2]].forEach(([x, y, r]) =>
+      ell(c, x, y, r)
+    );
+  }),
+
+  goonies: inBox((c) => {
+    // doblone dai bordi irregolari con i tre buchi
+    const pts = [];
+    for (let i = 0; i < 36; i++) {
+      const a = (i / 36) * Math.PI * 2;
+      const r = 42 + Math.sin(i * 2.7) * 1.8 + Math.cos(i * 1.3) * 1.2;
+      pts.push([50 + Math.cos(a) * r, 50 + Math.sin(a) * r]);
+    }
+    poly(c, pts);
+    cut(c, () => {
+      c.beginPath();
+      c.arc(50, 50, 36, 0, Math.PI * 2);
+      c.arc(50, 50, 34, 0, Math.PI * 2, true);
+      c.fill("evenodd");
+      ell(c, 38, 40, 6);
+      ell(c, 62, 40, 6);
+      ell(c, 50, 64, 6);
+    });
+  }),
+
+  backToTheFuture: inBox((c) => {
+    c.textAlign = "center";
+    c.textBaseline = "alphabetic";
+    c.save();
+    c.transform(1, 0, -0.18, 1, 9, 0);
+    c.font = "800 18px Archivo, Arial, sans-serif";
+    c.fillText("BACK TO THE", 50, 44, 78);
+    c.font = "800 30px Archivo, Arial, sans-serif";
+    c.fillText("FUTURE", 50, 72, 88);
+    c.restore();
+    // frecce sopra e sotto
+    c.fillRect(8, 24, 80, 3);
+    poly(c, [[86, 19], [98, 25.5], [86, 32]]);
+    c.fillRect(2, 77, 86, 3);
+    poly(c, [[86, 72], [98, 78.5], [86, 85]]);
+  }),
+
+  indyHat: inBox((c) => {
+    // fedora: tesa larga e corona con la piega centrale
+    fillPath(c, "M26,64 Q22,30 36,26 Q44,24 50,32 Q56,24 64,26 Q78,30 74,64 Z");
+    fillPath(c, "M2,66 Q50,52 98,66 Q92,78 50,76 Q8,78 2,66 Z");
+    cut(c, () => {
+      fillPath(c, "M25,54 Q50,50 75,54 L75,57 Q50,53 25,57 Z");
+      fillPath(c, "M49,33 Q50,44 49,52 L51,52 Q50,44 51,33 Z");
+    });
   }),
 };
 
